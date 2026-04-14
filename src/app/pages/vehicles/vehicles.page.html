@@ -24,9 +24,13 @@
   </div>
 
   <ion-list *ngIf="!loading && vehicles.length > 0">
-    <ion-item *ngFor="let v of vehicles" [routerLink]="['/vehicle-detail', v.id]" detail="true" class="ion-margin-bottom">
-      <ion-avatar slot="start" style="width: 60px; height: 60px;">
-        <img [src]="v.fotoUrl || 'assets/default-vehicle.png'" alt="Auto">
+    <ion-item *ngFor="let v of vehicles" [routerLink]="['/vehicle-detail', v.id]" detail="true" class="vehicle-item">
+      <ion-avatar slot="start">
+        <img 
+          [src]="v.fotoUrl || 'assets/default-vehicle.svg'" 
+          [alt]="v.marca + ' ' + v.modelo"
+          (error)="onImageError($event)"
+        >
       </ion-avatar>
       <ion-label>
         <h2>{{ v.marca }} {{ v.modelo }}</h2>

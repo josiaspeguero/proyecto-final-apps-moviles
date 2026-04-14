@@ -7,21 +7,31 @@ import { VehiclesService } from '../../services/vehicles.service';
 import { addIcons } from 'ionicons';
 import { addCircleOutline } from 'ionicons/icons';
 
+interface Vehicle {
+  id: number;
+  marca: string;
+  modelo: string;
+  anio: number;
+  placa: string;
+  fotoUrl?: string;
+  [key: string]: any;
+}
+
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.page.html',
+  styleUrls: ['./vehicles.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 export class VehiclesPage implements OnInit {
-  vehicles: any[] = [];
+  vehicles: Vehicle[] = [];
   loading: boolean = false;
 
   constructor(private vehiclesService: VehiclesService) {
     addIcons({ addCircleOutline });
   }
 
-  // Se usa ionViewWillEnter para recargar la lista siempre que se entra a la página
   ionViewWillEnter() {
     this.loadVehicles();
   }
@@ -35,13 +45,26 @@ export class VehiclesPage implements OnInit {
     this.vehiclesService.getVehicles().subscribe({
       next: (res) => {
         this.loading = false;
-        // La API puede devolver la data en un arreglo directo o dentro de res.data
-        this.vehicles = res.data || res || [];
+        this.vehicles = (res.data || res || []) as Vehicle[];
+        this.ensureImageUrls();
       },
       error: (err) => {
         this.loading = false;
         console.error('Error al cargar vehículos:', err);
       }
     });
+  }
+
+  private ensureImageUrls() {
+    this.vehicles = this.vehicles.map(vehicle => {
+      if (!vehicle.fotoUrl) {
+        vehicle.fotoUrl = 'assets/default-vehicle.svg';
+      }
+      return vehicle;
+    });
+  }
+
+  onImageError(event: any) {
+    event.target.src = 'assets/default-vehicle.svg';
   }
 }
