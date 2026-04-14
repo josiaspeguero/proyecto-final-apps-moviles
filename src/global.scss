@@ -41,11 +41,31 @@
  * Increased spacing between ion-label and ion-input for better readability
  */
 ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 0;
+
   ion-label {
-    margin-bottom: 12px;
+    margin-bottom: 20px;
+    margin-start: 0;
+    margin-end: 0;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  ion-input,
+  ion-textarea,
+  ion-select {
+    width: 100%;
+    margin-top: 8px;
   }
 }
 
 ion-item.ion-margin-top {
-  margin-top: 20px;
+  margin-top: 24px;
 }
