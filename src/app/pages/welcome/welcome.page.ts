@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { AuthService } from '../../services/auth.service';
 import { addIcons } from 'ionicons';
-import { logOutOutline, personCircleOutline } from 'ionicons/icons';
+import { logOutOutline, personCircleOutline, car, chatbubbles, newspaper, playCircle, book } from 'ionicons/icons';
 
 @Component({
   selector: 'app-welcome',
@@ -16,14 +16,27 @@ import { logOutOutline, personCircleOutline } from 'ionicons/icons';
 })
 export class WelcomePage implements OnInit {
   matricula: string | null = '';
+  profile: any = null;
 
   constructor(private authService: AuthService) {
-    addIcons({ logOutOutline, personCircleOutline });
+    addIcons({ logOutOutline, personCircleOutline, car, chatbubbles, newspaper, playCircle, book });
   }
 
   async ngOnInit() {
     const { value } = await Preferences.get({ key: 'matricula' });
     this.matricula = value;
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.authService.getProfile().subscribe({
+      next: (res) => {
+        this.profile = res.data || res;
+      },
+      error: (err) => {
+        console.error('Error al cargar perfil:', err);
+      }
+    });
   }
 
   logout() {

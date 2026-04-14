@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catálogo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleFilters()">
+        <ion-icon slot="icon-only" name="filter"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Filtros -->
+  <div *ngIf="showFilters" class="ion-margin-bottom">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Filtros</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Marca</ion-label>
+          <ion-input [(ngModel)]="filters.marca"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Modelo</ion-label>
+          <ion-input [(ngModel)]="filters.modelo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Año</ion-label>
+          <ion-input type="number" [(ngModel)]="filters.anio"></ion-input>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Precio Mín.</ion-label>
+              <ion-input type="number" [(ngModel)]="filters.precioMin"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Precio Máx.</ion-label>
+              <ion-input type="number" [(ngModel)]="filters.precioMax"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <ion-button expand="block" color="light" (click)="clearFilters()">Limpiar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" color="success" (click)="applyFilters()">Filtrar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="loading" class="ion-text-center ion-margin-top">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando catálogo...</p>
+  </div>
+
+  <div *ngIf="!loading && vehicles.length === 0" class="ion-text-center ion-margin-top">
+    <p>No se encontraron vehículos.</p>
+  </div>
+
+  <div *ngIf="!loading && vehicles.length > 0">
+    <ion-card *ngFor="let vehicle of vehicles" class="ion-activatable ripple-parent" (click)="viewDetail(vehicle.id)">
+      <ion-ripple-effect></ion-ripple-effect>
+      <img [src]="vehicle.imagen || 'https://via.placeholder.com/640x360.png?text=Sin+Imagen'" [alt]="vehicle.modelo" style="width: 100%; height: auto;" />
+      <ion-card-header>
+        <ion-card-subtitle color="success">{{ vehicle.marca }}</ion-card-subtitle>
+        <ion-card-title>{{ vehicle.modelo }} ({{ vehicle.anio }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <h2><strong>Precio:</strong> ${{ vehicle.precio | number }}</h2>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

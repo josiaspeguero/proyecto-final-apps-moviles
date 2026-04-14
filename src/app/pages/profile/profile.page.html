@@ -30,10 +30,6 @@
     </div>
 
     <h2 class="ion-margin-top">{{ profile.nombre }} {{ profile.apellido }}</h2>
-    <p><strong>Matrícula:</strong> {{ profile.matricula }}</p>
-    <p><strong>Correo:</strong> {{ profile.correo }}</p>
-    <p><strong>Rol:</strong> {{ profile.rol }}</p>
-    <p><strong>Grupo:</strong> {{ profile.grupo }}</p>
   </div>
 
   <div *ngIf="!profile && !loading" class="ion-text-center ion-margin-top">
@@ -59,8 +55,8 @@
       <ion-input type="password" [(ngModel)]="passNueva"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" color="secondary" shape="round" class="ion-margin-top" 
-      (click)="onChangePassword()" [disabled]="!passActual || !passNueva || changingPass">
+    <ion-button expand="block" color="secondary" shape="round" class="ion-margin-top" (click)="onChangePassword()"
+      [disabled]="!passActual || !passNueva || changingPass">
       {{ changingPass ? 'Guardando...' : 'Actualizar Contraseña' }}
     </ion-button>
   </div>

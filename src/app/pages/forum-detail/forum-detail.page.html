@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/forum"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tema</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bg-light">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando tema...</p>
+  </div>
+
+  <div *ngIf="!loading && topic">
+    <!-- Hilo principal -->
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>{{ topic.titulo }}</ion-card-title>
+        <ion-card-subtitle *ngIf="topic.autor">Por: {{ topic.autor }} <span *ngIf="topic.fecha"> • {{ topic.fecha | date:'short' }}</span></ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p style="font-size: 1.1em; color: #333;">{{ topic.descripcion || topic.contenido }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <h3 class="ion-margin-top ion-padding-horizontal">Respuestas</h3>
+
+    <!-- Lista de Respuestas -->
+    <ion-list *ngIf="topic.respuestas && topic.respuestas.length > 0">
+      <ion-item *ngFor="let rep of topic.respuestas">
+        <ion-avatar slot="start" *ngIf="rep.fotoAutor || rep.foto">
+          <img [src]="rep.fotoAutor || rep.foto" />
+        </ion-avatar>
+        <ion-icon name="person-circle" slot="start" color="medium" *ngIf="!(rep.fotoAutor || rep.foto)"></ion-icon>
+        <ion-label class="ion-text-wrap">
+          <h3><strong>{{ rep.autor || 'Usuario' }}</strong> <span style="font-size: 0.8em; color: gray;" *ngIf="rep.fecha"> • {{ rep.fecha | date:'short' }}</span></h3>
+          <p>{{ rep.contenido || rep.respuesta || rep.mensaje }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    
+    <div *ngIf="!topic.respuestas || topic.respuestas.length === 0" class="ion-text-center ion-padding">
+      <p style="color: gray;">Aún no hay respuestas. ¡Sé el primero en aportar!</p>
+    </div>
+
+    <!-- Caja para responder -->
+    <ion-card class="ion-margin-top">
+      <ion-card-content>
+        <ion-textarea rows="3" placeholder="Escribe tu respuesta aquí..." [(ngModel)]="newReply"></ion-textarea>
+        <ion-button expand="block" color="warning" class="ion-margin-top" (click)="onReply()" [disabled]="!newReply || replying">
+          {{ replying ? 'Enviando...' : 'Responder al Tema' }}
+          <ion-icon name="send" slot="end"></ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

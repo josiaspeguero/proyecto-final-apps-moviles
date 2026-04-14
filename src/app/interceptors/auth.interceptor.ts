@@ -14,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   return from(Preferences.get({ key: 'token' })).pipe(
     switchMap(({ value }) => {
       let clonedReq = req;
-      
+
       // If we have a token and it's not a login/register request, attach it
       if (value && !req.url.includes('/auth/login') && !req.url.includes('/auth/registro') && !req.url.includes('/auth/activar')) {
         clonedReq = req.clone({

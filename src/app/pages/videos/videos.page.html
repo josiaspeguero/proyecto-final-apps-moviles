@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Videos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-margin-top">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando videos...</p>
+  </div>
+
+  <div *ngIf="!loading && error" class="error-container ion-margin-top">
+    <div class="error-message">
+      <p><strong>⚠️ Error:</strong></p>
+      <p>{{ error }}</p>
+    </div>
+    <ion-button expand="block" color="danger" (click)="loadVideos()">
+      <ion-icon slot="start" name="refresh"></ion-icon>
+      Reintentar
+    </ion-button>
+  </div>
+
+  <div *ngIf="!loading && !error && videos.length === 0" class="ion-text-center ion-margin-top">
+    <p>No hay videos disponibles.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && videos.length > 0" class="videos-grid">
+    <div class="video-card-wrapper" *ngFor="let video of videos">
+      <ion-card class="video-card ion-activatable ripple-parent" [routerLink]="['/video-detail']" [queryParams]="{ id: video.id }">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="video-thumbnail-container">
+          <img 
+            [src]="video.thumbnail || 'https://via.placeholder.com/640x360.png?text=Sin+Imagen'" 
+            [alt]="video.titulo"
+            class="video-thumbnail" 
+          />
+          <div class="play-button-overlay">
+            <div class="play-button">
+              <ion-icon name="play"></ion-icon>
+            </div>
+          </div>
+        </div>
+        <ion-card-header>
+          <ion-card-subtitle color="danger">{{ video.categoria }}</ion-card-subtitle>
+          <ion-card-title>{{ video.titulo }}</ion-card-title>
+        </ion-card-header>
+        <div class="video-description-preview">
+          <p>{{ video.descripcion | slice:0:100 }}{{ video.descripcion && video.descripcion.length > 100 ? '...' : '' }}</p>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

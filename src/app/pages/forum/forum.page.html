@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Foro de Dudas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/forum-create">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <ion-toolbar color="warning">
+    <ion-segment [(ngModel)]="viewState" (ionChange)="segmentChanged()">
+      <ion-segment-button value="all">
+        <ion-label>Todos los Temas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="my">
+        <ion-label>Mis Temas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bg-light">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando temas...</p>
+  </div>
+
+  <div *ngIf="!loading && (!topics || topics.length === 0)" class="ion-text-center ion-padding">
+    <p>No hay temas creados en esta sección.</p>
+    <ion-button routerLink="/forum-create" color="warning" *ngIf="viewState === 'all'">
+      Crear Primer Tema
+    </ion-button>
+  </div>
+
+  <ion-list *ngIf="!loading && topics && topics.length > 0">
+    <ion-item *ngFor="let topic of topics" [routerLink]="['/forum-detail', topic.id]">
+      <ion-icon name="chatbubbles" slot="start" color="warning"></ion-icon>
+      <ion-label>
+        <h2><strong>{{ topic.titulo }}</strong></h2>
+        <p>{{ topic.descripcion }}</p>
+        <p style="font-size: 0.8em; color: gray;" class="ion-margin-top">
+          <span *ngIf="topic.autor">Por: {{ topic.autor }} • </span>
+          <span><ion-icon name="chatbox-ellipses-outline"></ion-icon> {{ topic.respuestas || 0 }} respuestas</span>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

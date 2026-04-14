@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Noticias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bg-light">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando noticias...</p>
+  </div>
+
+  <div *ngIf="!loading && (!news || news.length === 0)" class="ion-text-center ion-padding">
+    <p>No hay noticias disponibles en este momento.</p>
+  </div>
+
+  <ion-list *ngIf="!loading && news && news.length > 0">
+    <ion-card *ngFor="let item of news" [routerLink]="['/news-detail', item.id]">
+      <img *ngIf="item.imagen || item.foto" [src]="item.imagen || item.foto" alt="Imagen noticia" style="width: 100%; max-height: 200px; object-fit: cover;" />
+      <ion-card-header>
+        <ion-card-title>{{ item.titulo }}</ion-card-title>
+        <ion-card-subtitle *ngIf="item.fecha">{{ item.fecha | date:'mediumDate' }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ item.resumen }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

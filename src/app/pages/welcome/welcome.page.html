@@ -9,18 +9,49 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" class="ion-text-center">
-  <div style="margin-top: 40%">
-    <ion-icon name="person-circle-outline" style="font-size: 100px; color: var(--ion-color-success)"></ion-icon>
-    <h1>Bienvenido {{ matricula }}</h1>
-    <p>Has iniciado sesión correctamente.</p>
+<ion-content class="ion-padding">
+  <!-- Foto de Perfil y Bienvenida -->
+  <div style="text-align: center; padding-top: 20px;">
+    <ion-avatar *ngIf="profile" style="width: 120px; height: 120px; margin: 0 auto; display: block;">
+      <img [src]="profile.fotoUrl || 'assets/default-avatar.png'" alt="Foto de perfil" />
+    </ion-avatar>
+    <ion-icon *ngIf="!profile" name="person-circle-outline" style="font-size: 100px; color: var(--ion-color-success); display: block;"></ion-icon>
     
-    <ion-button routerLink="/vehicles" color="primary" expand="block" shape="round" class="ion-margin-top">
-      Mis Vehículos
-    </ion-button>
+    <h2 class="ion-margin-top">Bienvenido {{ matricula }}</h2>
+    <p style="color: var(--ion-color-step-600);">Has iniciado sesión correctamente.</p>
+  </div>
 
-    <ion-button routerLink="/profile" color="success" expand="block" shape="round" class="ion-margin-top">
-      Mi Perfil
+  <hr class="ion-margin-vertical">
+
+  <!-- Menú Principal -->
+  <div>
+    <h3 style="text-align: center; margin-bottom: 15px;">Menú Principal</h3>
+    <ion-button expand="block" color="tertiary" routerLink="/vehicles" class="ion-margin-bottom">
+      <ion-icon name="car" slot="start"></ion-icon>
+      Mis vehículos
+    </ion-button>
+    <ion-button expand="block" color="warning" routerLink="/forum" class="ion-margin-bottom">
+      <ion-icon name="chatbubbles" slot="start"></ion-icon>
+      Foro
+    </ion-button>
+    <ion-button expand="block" color="secondary" routerLink="/news" class="ion-margin-bottom">
+      <ion-icon name="newspaper" slot="start"></ion-icon>
+      Noticias
+    </ion-button>
+    <ion-button expand="block" color="danger" routerLink="/videos" class="ion-margin-bottom">
+      <ion-icon name="play-circle" slot="start"></ion-icon>
+      Videos
+    </ion-button>
+    <ion-button expand="block" color="success" routerLink="/catalog" class="ion-margin-bottom">
+      <ion-icon name="book" slot="start"></ion-icon>
+      Catálogo
     </ion-button>
   </div>
+
+  <hr class="ion-margin-vertical">
+
+  <!-- Mi Perfil -->
+  <ion-button routerLink="/profile" color="primary" expand="block" shape="round" class="ion-margin-top">
+    Mi Perfil
+  </ion-button>
 </ion-content>

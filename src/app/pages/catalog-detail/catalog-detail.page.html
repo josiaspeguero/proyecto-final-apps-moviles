@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/catalog"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Vehículo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-margin-top">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando detalle...</p>
+  </div>
+
+  <div *ngIf="!loading && !vehicle" class="ion-text-center ion-margin-top">
+    <p>No se pudo cargar la información del vehículo.</p>
+  </div>
+
+  <div *ngIf="!loading && vehicle">
+    <ion-card>
+      <img [src]="vehicle.imagen || 'https://via.placeholder.com/640x360.png?text=Sin+Imagen'" [alt]="vehicle.modelo" style="width: 100%; height: auto;" />
+      <ion-card-header>
+        <ion-card-subtitle color="success">{{ vehicle.marca }}</ion-card-subtitle>
+        <ion-card-title>{{ vehicle.modelo }} ({{ vehicle.anio }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <h2 class="ion-margin-bottom"><strong>Precio:</strong> ${{ vehicle.precio | number }}</h2>
+
+        <ion-segment value="info" (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="info">
+            <ion-label>Descripción</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="gallery">
+            <ion-label>Galería</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div *ngIf="selectedSegment === 'info'" class="ion-margin-top">
+          <h3>Descripción</h3>
+          <p>{{ vehicle.descripcion || 'Sin descripción detallada.' }}</p>
+          
+          <h3 class="ion-margin-top">Especificaciones</h3>
+          <p>{{ vehicle.especificaciones || 'Sin especificaciones detalladas.' }}</p>
+        </div>
+
+        <div *ngIf="selectedSegment === 'gallery'" class="ion-margin-top">
+          <div *ngIf="vehicle.galeria && vehicle.galeria.length > 0; else noGallery">
+            <ion-list>
+              <ion-item *ngFor="let img of vehicle.galeria" lines="none" class="ion-no-padding">
+                <img [src]="img" style="width: 100%; border-radius: 8px; margin-bottom: 15px;" />
+              </ion-item>
+            </ion-list>
+          </div>
+          <ng-template #noGallery>
+            <p>No hay galería de imágenes disponible.</p>
+          </ng-template>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/news"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando detalle...</p>
+  </div>
+
+  <div *ngIf="!loading && newsItem">
+    <img *ngIf="newsItem.imagen || newsItem.fotoUrl || newsItem.foto" [src]="newsItem.imagen || newsItem.fotoUrl || newsItem.foto" style="width: 100%; border-radius: 8px;" />
+    
+    <h1 class="ion-margin-top" style="font-weight: bold;">{{ newsItem.titulo }}</h1>
+    <p style="color: gray; font-size: 0.9em;" *ngIf="newsItem.fecha">{{ newsItem.fecha | date:'fullDate' }}</p>
+
+    <!-- Render correcto de HTML -->
+    <div class="ion-margin-top" [innerHTML]="newsItem.contenido || newsItem.html || newsItem.cuerpo" style="line-height: 1.6;"></div>
+  </div>
+</ion-content>

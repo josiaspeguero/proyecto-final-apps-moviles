@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { logOutOutline } from 'ionicons/icons';
 
@@ -11,7 +11,7 @@ import { logOutOutline } from 'ionicons/icons';
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 export class ProfilePage implements OnInit {
   profile: any = null;

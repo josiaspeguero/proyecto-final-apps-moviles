@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/forum"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Tema</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loadingVehicles" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando vehículos...</p>
+  </div>
+
+  <form *ngIf="!loadingVehicles" [formGroup]="forumForm" (ngSubmit)="onSave()">
+    <ion-item>
+      <ion-label position="stacked">Vehículo</ion-label>
+      <ion-select formControlName="vehiculo_id" placeholder="Selecciona un vehículo">
+        <ion-select-option *ngFor="let v of vehicles" [value]="v.id || v.idVehiculo || v.vehiculoId">{{ v.marca }} {{ v.modelo }} ({{ v.anio }})</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Título del problema</ion-label>
+      <ion-input type="text" formControlName="titulo" placeholder="Ej: Ruido en el motor"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea formControlName="descripcion" rows="4" placeholder="Describe tu caso aquí..."></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" color="warning" type="submit" class="ion-margin-top" [disabled]="forumForm.invalid || saving">
+      {{ saving ? 'Creando...' : 'Publicar Tema' }}
+    </ion-button>
+  </form>
+</ion-content>

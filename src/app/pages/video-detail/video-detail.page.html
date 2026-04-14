@@ -1,0 +1,81 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/videos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Video</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-margin-top">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando video...</p>
+  </div>
+
+  <div *ngIf="!loading && error" class="error-container ion-margin-top">
+    <div class="error-message">
+      <p><strong>⚠️ Error:</strong></p>
+      <p>{{ error }}</p>
+    </div>
+    <ion-button expand="block" color="danger" (click)="retry()">
+      <ion-icon slot="start" name="refresh"></ion-icon>
+      Reintentar
+    </ion-button>
+  </div>
+
+  <div *ngIf="!loading && !error && !video" class="ion-text-center ion-margin-top">
+    <p>No se pudo cargar el video.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && video" class="video-detail-container">
+    <!-- Video Player -->
+    <div *ngIf="youtubeEmbedUrl" class="youtube-player-wrapper">
+      <iframe
+        [src]="youtubeEmbedUrl"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        class="youtube-player"
+      ></iframe>
+    </div>
+
+    <!-- Thumbnail Fallback -->
+    <div *ngIf="!youtubeEmbedUrl" class="video-thumbnail-fallback">
+      <img 
+        [src]="video.thumbnail || 'https://via.placeholder.com/640x360.png?text=Sin+Imagen'" 
+        [alt]="video.titulo"
+        class="thumbnail-image"
+      />
+      <div class="play-button-fallback">
+        <ion-icon name="play"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Video Info -->
+    <div class="video-info-section ion-margin-top">
+      <h1 class="video-title">{{ video.titulo }}</h1>
+      <div class="video-meta">
+        <span class="category-badge">{{ video.categoria }}</span>
+      </div>
+
+      <hr class="divider ion-margin-vertical">
+
+      <!-- Description -->
+      <div class="description-section">
+        <h2>Descripción</h2>
+        <p class="description-text">{{ video.descripcion || 'Sin descripción disponible.' }}</p>
+      </div>
+
+      <hr class="divider ion-margin-vertical">
+
+      <!-- External Link Button -->
+      <div *ngIf="video.url" class="action-buttons">
+        <ion-button expand="block" color="danger" (click)="openExternalVideo()">
+          <ion-icon name="open-outline" slot="start"></ion-icon>
+          Ver en {{ video.url.includes('youtube') ? 'YouTube' : 'Navegador' }}
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
