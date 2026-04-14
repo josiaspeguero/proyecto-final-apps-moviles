@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/income/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Añadir Ingreso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="incomeForm" (ngSubmit)="onSave()">
+    
+    <ion-item>
+      <ion-label position="floating">Concepto / Descripción</ion-label>
+      <ion-input type="text" formControlName="concepto"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Monto</ion-label>
+      <ion-input type="number" formControlName="monto"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="success" type="submit" class="ion-margin-top" [disabled]="incomeForm.invalid || saving">
+      {{ saving ? 'Guardando...' : 'Guardar Ingreso' }}
+    </ion-button>
+  </form>
+</ion-content>

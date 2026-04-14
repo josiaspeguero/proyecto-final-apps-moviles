@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Inicio</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" class="ion-text-center">
+  <div style="margin-top: 40%">
+    <ion-icon name="person-circle-outline" style="font-size: 100px; color: var(--ion-color-success)"></ion-icon>
+    <h1>Bienvenido {{ matricula }}</h1>
+    <p>Has iniciado sesión correctamente.</p>
+    
+    <ion-button routerLink="/vehicles" color="primary" expand="block" shape="round" class="ion-margin-top">
+      Mis Vehículos
+    </ion-button>
+
+    <ion-button routerLink="/profile" color="success" expand="block" shape="round" class="ion-margin-top">
+      Mi Perfil
+    </ion-button>
+  </div>
+</ion-content>

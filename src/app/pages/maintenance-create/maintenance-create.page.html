@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/maintenances/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuevo Mantenimiento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="maintenanceForm" (ngSubmit)="onSave()">
+    <ion-item>
+      <ion-label position="floating">Tipo de mantenimiento</ion-label>
+      <ion-input type="text" formControlName="tipo" placeholder="Ej: Cambio de aceite"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Costo</ion-label>
+      <ion-input type="number" formControlName="costo"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="secondary" type="submit" class="ion-margin-top" [disabled]="maintenanceForm.invalid || saving">
+      {{ saving ? 'Guardando...' : 'Registrar Mantenimiento' }}
+    </ion-button>
+  </form>
+</ion-content>

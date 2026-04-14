@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Datos de usuario -->
+  <div *ngIf="profile" class="ion-text-center">
+    <!-- Foto (Se puede hacer click en el container o en el boton) -->
+    <div style="position: relative; display: inline-block;">
+      <ion-avatar style="width: 150px; height: 150px; margin: 0 auto;">
+        <img [src]="profile.fotoUrl || 'assets/default-avatar.png'" alt="Foto de perfil" />
+      </ion-avatar>
+      <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+    </div>
+
+    <div class="ion-margin-top">
+      <ion-button size="small" color="light" (click)="fileInput.click()">
+        Cambiar foto
+      </ion-button>
+    </div>
+
+    <h2 class="ion-margin-top">{{ profile.nombre }} {{ profile.apellido }}</h2>
+    <p><strong>Matrícula:</strong> {{ profile.matricula }}</p>
+    <p><strong>Correo:</strong> {{ profile.correo }}</p>
+    <p><strong>Rol:</strong> {{ profile.rol }}</p>
+    <p><strong>Grupo:</strong> {{ profile.grupo }}</p>
+  </div>
+
+  <div *ngIf="!profile && !loading" class="ion-text-center ion-margin-top">
+    <p>No se pudo cargar el perfil.</p>
+  </div>
+  <div *ngIf="loading" class="ion-text-center ion-margin-top">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <hr class="ion-margin-vertical">
+
+  <!-- Cambiar Contraseña -->
+  <div>
+    <h3>Cambiar Contraseña</h3>
+    <ion-item>
+      <ion-label position="floating">Contraseña Actual</ion-label>
+      <ion-input type="password" [(ngModel)]="passActual"></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-top">
+      <ion-label position="floating">Nueva Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="passNueva"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="secondary" shape="round" class="ion-margin-top" 
+      (click)="onChangePassword()" [disabled]="!passActual || !passNueva || changingPass">
+      {{ changingPass ? 'Guardando...' : 'Actualizar Contraseña' }}
+    </ion-button>
+  </div>
+</ion-content>

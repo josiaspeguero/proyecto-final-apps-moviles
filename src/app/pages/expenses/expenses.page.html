@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/vehicle-detail/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gastos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/expense-create', vehiculoId]">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <div *ngIf="!loading && (!expenses || expenses.length === 0)" class="ion-text-center ion-padding">
+    <p>No hay gastos registrados para este vehículo.</p>
+    <ion-button [routerLink]="['/expense-create', vehiculoId]" color="danger">
+      Registrar Gasto
+    </ion-button>
+    
+    <!-- Info debug en caso de que el backend cambie -->
+    <div style="font-size: 10px; color: gray; text-align: left; overflow: auto; margin-top: 10px;">
+      <pre>Debug: {{ rawRes | json }}</pre>
+    </div>
+  </div>
+
+  <ion-list *ngIf="!loading && expenses && expenses.length > 0">
+    <ion-item *ngFor="let item of expenses">
+      <ion-icon name="cart" slot="start" color="danger"></ion-icon>
+      <ion-label>
+        <h2>{{ item.descripcion }}</h2>
+        <p>Categoría: {{ item.categoria || item.categoria_nombre || item.categoriaId }}</p>
+        <p>Monto: {{ item.monto | currency }}</p>
+        <p *ngIf="item.fecha">Fecha: {{ item.fecha | date:'shortDate' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

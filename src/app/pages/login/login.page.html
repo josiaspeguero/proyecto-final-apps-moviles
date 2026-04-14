@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="container" style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+    <h2 class="ion-text-center">Ingresa a tu cuenta</h2>
+    <ion-item>
+      <ion-label position="floating">Matrícula</ion-label>
+      <ion-input type="text" [(ngModel)]="matricula" placeholder="Ej: 20240096"></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-top">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="contrasena" placeholder="Tu clave aquí"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="dark" shape="round" class="ion-margin-top" (click)="onLogin()" [disabled]="!matricula || !contrasena || loading">
+      {{ loading ? 'Validando...' : 'Entrar' }}
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" color="medium" routerLink="/register">
+      Crear cuenta nueva
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" color="danger" routerLink="/forgot-password">
+      ¿Olvidaste tu contraseña?
+    </ion-button>
+  </div>
+</ion-content>

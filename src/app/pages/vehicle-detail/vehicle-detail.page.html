@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/vehicles"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Vehículo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <div *ngIf="!loading && vehicle">
+    <!-- Visualización y Modificación de la Foto -->
+    <div class="ion-text-center" style="position: relative; display: inline-block; width: 100%;">
+      <img [src]="vehicle.fotoUrl || 'assets/default-vehicle.png'" alt="Auto" style="max-height: 200px; border-radius: 8px;">
+      <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+    </div>
+    
+    <div class="ion-text-center ion-margin-top">
+      <ion-button size="small" color="light" (click)="fileInput.click()">
+        Cambiar foto de vehículo
+      </ion-button>
+    </div>
+
+    <!-- Formulario Reactivo de Edición -->
+    <form [formGroup]="editForm" (ngSubmit)="onSave()" class="ion-margin-top">
+      <ion-item>
+        <ion-label position="floating">Placa (No editable)</ion-label>
+        <ion-input type="text" [value]="vehicle.placa" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Chasis (No editable)</ion-label>
+        <ion-input type="text" [value]="vehicle.chasis" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Marca</ion-label>
+        <ion-input type="text" formControlName="marca"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Modelo</ion-label>
+        <ion-input type="text" formControlName="modelo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Año</ion-label>
+        <ion-input type="number" formControlName="anio"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="secondary" type="submit" class="ion-margin-top" [disabled]="editForm.invalid || saving">
+        {{ saving ? 'Guardando...' : 'Guardar Cambios' }}
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" type="button" class="ion-margin-top" [routerLink]="['/maintenances', vehicleId]">
+        <ion-icon name="list" slot="start"></ion-icon>
+        Mantenimientos
+      </ion-button>
+
+      <ion-button expand="block" color="warning" type="button" class="ion-margin-top" [routerLink]="['/fuel', vehicleId]">
+        <ion-icon name="water" slot="start"></ion-icon>
+        Combustible
+      </ion-button>
+
+      <ion-button expand="block" color="danger" type="button" class="ion-margin-top" [routerLink]="['/expenses', vehicleId]">
+        <ion-icon name="cart" slot="start"></ion-icon>
+        Gastos
+      </ion-button>
+
+      <ion-button expand="block" color="success" type="button" class="ion-margin-top" [routerLink]="['/income', vehicleId]">
+        <ion-icon name="cash" slot="start"></ion-icon>
+        Ingresos
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

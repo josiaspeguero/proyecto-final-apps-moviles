@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="vehiculoId ? '/maintenances/' + vehiculoId : '/vehicles'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle Mantenimiento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <div *ngIf="!loading && maintenance">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ maintenance.tipo }}</ion-card-title>
+        <ion-card-subtitle *ngIf="maintenance.fecha">{{ maintenance.fecha | date:'longDate' }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <h2><strong>Costo:</strong> {{ maintenance.costo | currency }}</h2>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-margin-top ion-text-center">
+      <h3>Galería de Fotos</h3>
+      <input type="file" #fileInput (change)="onFilesSelected($event)" accept="image/*" multiple style="display: none;" />
+      
+      <ion-button expand="block" color="secondary" (click)="fileInput.click()" [disabled]="uploading">
+        <ion-icon name="images" slot="start"></ion-icon>
+        {{ uploading ? 'Subiendo fotos...' : 'Subir Fotos' }}
+      </ion-button>
+    </div>
+
+    <ion-grid *ngIf="maintenance.fotos && maintenance.fotos.length > 0" class="ion-margin-top">
+      <ion-row>
+        <ion-col size="6" *ngFor="let foto of maintenance.fotos">
+          <img [src]="foto.url || foto.ruta || foto" alt="Foto mantenimiento" style="border-radius: 8px; width: 100%; object-fit: cover; aspect-ratio: 1;" />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <p *ngIf="!maintenance.fotos || maintenance.fotos.length === 0" class="ion-text-center ion-margin-top">
+      No hay fotos disponibles.
+    </p>
+
+  </div>
+</ion-content>

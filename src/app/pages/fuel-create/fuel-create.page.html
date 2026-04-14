@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/fuel/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuevo Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="fuelForm" (ngSubmit)="onSave()">
+    <ion-item>
+      <ion-label>Tipo</ion-label>
+      <ion-select formControlName="tipo">
+        <ion-select-option value="combustible">Combustible</ion-select-option>
+        <ion-select-option value="aceite">Aceite</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Cantidad</ion-label>
+      <ion-input type="number" formControlName="cantidad"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Unidad</ion-label>
+      <ion-select formControlName="unidad">
+        <ion-select-option value="galones">Galones</ion-select-option>
+        <ion-select-option value="litros">Litros</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Monto pagado</ion-label>
+      <ion-input type="number" formControlName="monto"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="warning" type="submit" class="ion-margin-top" [disabled]="fuelForm.invalid || saving">
+      {{ saving ? 'Guardando...' : 'Guardar' }}
+    </ion-button>
+  </form>
+</ion-content>

@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/vehicle-detail/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mantenimientos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/maintenance-create', vehiculoId]">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando mantenimientos...</p>
+  </div>
+
+  <ion-list *ngIf="!loading && maintenances.length > 0">
+    <ion-item *ngFor="let m of maintenances" [routerLink]="['/maintenance-detail', m.id]">
+      <ion-label>
+        <h2>{{ m.tipo }}</h2>
+        <p>Costo: {{ m.costo | currency }}</p>
+        <p *ngIf="m.fecha">Fecha: {{ m.fecha | date:'shortDate' }}</p>
+      </ion-label>
+      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="!loading && maintenances.length === 0" class="ion-text-center ion-padding">
+    <p>No hay mantenimientos para este vehículo.</p>
+    <ion-button [routerLink]="['/maintenance-create', vehiculoId]" color="secondary">
+      Agregar Mantenimiento
+    </ion-button>
+  </div>
+</ion-content>

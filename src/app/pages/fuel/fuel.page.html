@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/vehicle-detail/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Combustible y Aceite</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/fuel-create', vehiculoId]">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <ion-list *ngIf="!loading && records.length > 0">
+    <ion-item *ngFor="let item of records">
+      <ion-icon name="water" slot="start" color="primary" *ngIf="item.tipo === 'aceite'"></ion-icon>
+      <ion-icon name="flash" slot="start" color="warning" *ngIf="item.tipo === 'combustible'"></ion-icon>
+      <ion-label>
+        <h2 style="text-transform: capitalize;">{{ item.tipo }}</h2>
+        <p>Volumen: {{ item.cantidad }} {{ item.unidad }}</p>
+        <p>Monto: {{ item.monto | currency }}</p>
+        <p *ngIf="item.fecha">Fecha: {{ item.fecha | date:'shortDate' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="!loading && records.length === 0" class="ion-text-center ion-padding">
+    <p>No hay registros guardados.</p>
+    <ion-button [routerLink]="['/fuel-create', vehiculoId]" color="warning">
+      Añadir Registro
+    </ion-button>
+  </div>
+</ion-content>

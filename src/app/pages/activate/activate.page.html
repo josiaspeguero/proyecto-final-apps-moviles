@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Activar Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="container" style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+    <h2 class="ion-text-center">Activa tu Acceso</h2>
+    <p class="ion-text-center">Ingresa una contraseña para proteger tu cuenta.</p>
+
+    <ion-item>
+      <ion-label position="floating">Nueva Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="contrasena" placeholder="Escribe tu contraseña"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="secondary" shape="round" class="ion-margin-top" (click)="onActivate()" [disabled]="!contrasena || loading">
+      {{ loading ? 'Activando...' : 'Activar mi Cuenta' }}
+    </ion-button>
+  </div>
+</ion-content>

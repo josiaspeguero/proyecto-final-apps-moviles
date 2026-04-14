@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/vehicles"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Vehículo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Placa *</ion-label>
+      <ion-input type="text" formControlName="placa"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Chasis *</ion-label>
+      <ion-input type="text" formControlName="chasis"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Marca *</ion-label>
+      <ion-input type="text" formControlName="marca"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Modelo *</ion-label>
+      <ion-input type="text" formControlName="modelo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Año *</ion-label>
+      <ion-input type="number" formControlName="anio"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Cantidad de Ruedas *</ion-label>
+      <ion-input type="number" formControlName="cantidadRuedas"></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-top">
+      <ion-label>Foto del Vehículo</ion-label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+    </ion-item>
+
+    <ion-button expand="block" shape="round" color="primary" type="submit" class="ion-margin-top" [disabled]="vehicleForm.invalid || loading">
+      {{ loading ? 'Guardando...' : 'Guardar Vehículo' }}
+    </ion-button>
+  </form>
+</ion-content>

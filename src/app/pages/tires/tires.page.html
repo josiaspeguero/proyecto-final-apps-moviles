@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/vehicle-detail/' + vehiculoId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Control de Gomas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <div *ngIf="!loading && (!tires || tires.length === 0)" class="ion-text-center">
+    <p>No hay información de gomas para este vehículo.</p>
+    <div style="font-size: 10px; color: gray; text-align: left; overflow: auto;">
+      <pre>Response debug: {{ rawRes | json }}</pre>
+    </div>
+  </div>
+
+  <ion-list *ngIf="!loading && tires && tires.length > 0">
+    <ng-container *ngFor="let goma of tires">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Posición: <span style="text-transform: capitalize;">{{ goma.posicion }}</span></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          
+          <ion-item lines="none">
+            <ion-label><strong>Estado Actual:</strong></ion-label>
+            <ion-select [(ngModel)]="goma.estado" (ionChange)="onUpdateStatus(goma.id, goma.estado)" [disabled]="savingStatus">
+              <ion-select-option value="buena">Buena</ion-select-option>
+              <ion-select-option value="regular">Regular</ion-select-option>
+              <ion-select-option value="mala">Mala</ion-select-option>
+              <ion-select-option value="reemplazada">Reemplazada</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-button color="medium" expand="block" size="small" (click)="toggleAddPuncture(goma.id)">
+            {{ selectedTireId === goma.id ? 'Cancelar Pinchazo' : 'Registrar Pinchazo' }}
+          </ion-button>
+
+          <!-- Formulario de Pinchazo Integrado -->
+          <form *ngIf="selectedTireId === goma.id" [formGroup]="punctureForm" (ngSubmit)="onSavePuncture()" class="ion-margin-top ion-padding" style="background:#55555511; border-radius:8px;">
+            <p><strong>Nuevo Pinchazo</strong></p>
+            <ion-item>
+              <ion-label position="floating">Descripción</ion-label>
+              <ion-input type="text" formControlName="descripcion" placeholder="Ej: Clavo en la banda"></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label position="floating">Fecha</ion-label>
+              <ion-input type="date" formControlName="fecha"></ion-input>
+            </ion-item>
+
+            <ion-button type="submit" expand="block" color="danger" class="ion-margin-top" [disabled]="punctureForm.invalid || savingPuncture">
+               {{ savingPuncture ? 'Registrando...' : 'Guardar Pinchazo' }}
+            </ion-button>
+          </form>
+
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </ion-list>
+
+</ion-content>

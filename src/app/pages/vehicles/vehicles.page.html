@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Vehículos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/vehicle-create">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-margin-top">
+    <ion-spinner></ion-spinner>
+    <p>Cargando vehículos...</p>
+  </div>
+
+  <div *ngIf="!loading && vehicles.length === 0" class="ion-text-center ion-margin-top">
+    <p>No tienes vehículos registrados.</p>
+    <ion-button routerLink="/vehicle-create" color="primary">Agregar mi primer vehículo</ion-button>
+  </div>
+
+  <ion-list *ngIf="!loading && vehicles.length > 0">
+    <ion-item *ngFor="let v of vehicles" [routerLink]="['/vehicle-detail', v.id]" detail="true" class="ion-margin-bottom">
+      <ion-avatar slot="start" style="width: 60px; height: 60px;">
+        <img [src]="v.fotoUrl || 'assets/default-vehicle.png'" alt="Auto">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ v.marca }} {{ v.modelo }}</h2>
+        <p>Año: {{ v.anio }}</p>
+        <p>Placa: {{ v.placa }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
