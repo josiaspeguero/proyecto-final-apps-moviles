@@ -35,3 +35,17 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+/**
+ * Custom Global Styles
+ * Increased spacing between ion-label and ion-input for better readability
+ */
+ion-item {
+  ion-label {
+    margin-bottom: 12px;
+  }
+}
+
+ion-item.ion-margin-top {
+  margin-top: 20px;
+}
